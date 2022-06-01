@@ -22,6 +22,7 @@ namespace ApiAdocao.Domain.DTO
         public int? NivelCarinho { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
     }
 }

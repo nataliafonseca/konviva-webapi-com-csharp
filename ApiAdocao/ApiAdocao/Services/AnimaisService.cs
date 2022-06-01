@@ -57,9 +57,6 @@ namespace ApiAdocao.Services
             if (model.NivelCarinho < 1 || model.NivelCarinho > 5)
                 return new ServiceResponse<Animal>("NivelCarinho inválido. Deve ser informado um valor entre 1 e 5.");
 
-            if (!model.Email.Contains("@"))
-                return new ServiceResponse<Animal>("Email inválido.");
-
             Animal novoAnimal = new()
             {
                 Id = proximoId++,
