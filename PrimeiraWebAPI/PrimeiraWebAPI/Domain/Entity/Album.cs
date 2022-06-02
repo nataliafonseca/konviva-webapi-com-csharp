@@ -19,5 +19,7 @@ namespace PrimeiraWebAPI.Domain.Entity
 
         [Required]
         public int AnoLancamento { get; set; }
+
+        public virtual ICollection<Avaliacao> Avaliacoes { get; set; }
     }
 }

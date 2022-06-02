@@ -11,12 +11,20 @@ namespace PrimeiraWebAPI.DAL
 
         public virtual DbSet<Album> Albuns { get; set; }
 
+        public virtual DbSet<Avaliacao> Avaliacoes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Album>(entity =>
             {
                 entity.Property(x => x.Nome).IsUnicode(false);
                 entity.Property(x => x.Artista).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Avaliacao>(entity =>
+            {
+                entity.Property(x => x.Comentario).IsUnicode(false);
+                entity.HasOne(x => x.Album).WithMany(y => y.Avaliacoes).HasForeignKey(x => x.IdAlbum).OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 // AddTransient registra nossa classe para inserção, com o tempo de vida "Transitório". Assim, para cada solicitação, uma nova instância é criada.
 builder.Services.AddTransient<AlbunsService>();
+builder.Services.AddTransient<AvaliacoesService>();
 
 
 string connectionString = "Server=localhost;Database=PrimeiraAPI;User Id=sa;Password=SQLServer2019;";

@@ -36,47 +36,51 @@ namespace PrimeiraWebAPI.Services
             return new ServiceResponse<Album>(novoAlbum);
         }
 
-        public List<Album> ListarTodos()
+        public IEnumerable<AlbumResponse> ListarTodos()
         {
             // SELECT * FROM Albuns;
-            return _dbContext.Albuns.ToList();
+            var retornoBanco = _dbContext.Albuns.Include(x => x.Avaliacoes).ToList();
+
+            IEnumerable<AlbumResponse> lista = retornoBanco.Select(x => new AlbumResponse(x));
+
+            return lista;
         }
 
-        public ServiceResponse<Album> PesquisarPorId(int id)
+        public ServiceResponse<AlbumResponse> PesquisarPorId(int id)
         {
             // SELECT TOP 1 * FROM Albuns WHERE Albuns.IdAlbum == id;
             var resultado = _dbContext.Albuns.FirstOrDefault(album => album.IdAlbum == id);
 
             if (resultado == null)
-                return new ServiceResponse<Album>("Album não encontrado!");
+                return new ServiceResponse<AlbumResponse>("Album não encontrado!");
 
-            return new ServiceResponse<Album>(resultado);
+            return new ServiceResponse<AlbumResponse>(new AlbumResponse(resultado));
         }
 
-        public ServiceResponse<Album> PesquisarPorNome(string nome)
+        public ServiceResponse<AlbumResponse> PesquisarPorNome(string nome)
         {
             // SELECT TOP 1 * FROM Albuns WHERE Albuns.Nome == nome;
             var resultado = _dbContext.Albuns.FirstOrDefault(album => album.Nome == nome);
 
             if (resultado == null)
-                return new ServiceResponse<Album>("Album não encontrado!");
+                return new ServiceResponse<AlbumResponse>("Album não encontrado!");
 
-            return new ServiceResponse<Album>(resultado);
+            return new ServiceResponse<AlbumResponse>(new AlbumResponse(resultado));
         }
 
-        public ServiceResponse<Album> Editar(int id, AlbumUpdateRequest model)
+        public ServiceResponse<AlbumResponse> Editar(int id, AlbumUpdateRequest model)
         {
             var resultado = _dbContext.Albuns.FirstOrDefault(album => album.IdAlbum == id);
 
             if (resultado == null)
-                return new ServiceResponse<Album>("Album não encontrado!");
+                return new ServiceResponse<AlbumResponse>("Album não encontrado!");
 
             resultado.Artista = model.Artista;
 
             _dbContext.Albuns.Add(resultado).State = EntityState.Modified;
             _dbContext.SaveChanges();
 
-            return new ServiceResponse<Album>(resultado);
+            return new ServiceResponse<AlbumResponse>(new AlbumResponse(resultado));
         }
 
         public ServiceResponse<bool> Deletar(int id)

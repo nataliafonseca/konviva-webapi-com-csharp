@@ -19,7 +19,7 @@ namespace PrimeiraWebAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Album> Get()
+        public IEnumerable<AlbumResponse> Get()
         {
             return albumService.ListarTodos();
         }
