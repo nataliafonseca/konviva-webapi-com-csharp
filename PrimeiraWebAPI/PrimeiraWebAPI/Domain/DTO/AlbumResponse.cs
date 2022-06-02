@@ -9,6 +9,7 @@ namespace PrimeiraWebAPI.Domain.DTO
         public string Artista { get; set; }
         public int AnoLancamento { get; set; }
         public List<AvaliacaoResponse> Avaliacoes { get; set; }
+        public String AvaliacaoMedia { get; set; }
 
         public AlbumResponse(Album album)
         {
@@ -21,6 +22,10 @@ namespace PrimeiraWebAPI.Domain.DTO
             {
                 Avaliacoes = new List<AvaliacaoResponse>();
                 Avaliacoes.AddRange(album.Avaliacoes.Select(x => new AvaliacaoResponse(x)));
+
+                double media = Avaliacoes.Average(avaliacao => avaliacao.Nota);
+
+                AvaliacaoMedia = media.ToString("F2");
             }
         }
     }
