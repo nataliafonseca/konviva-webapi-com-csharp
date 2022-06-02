@@ -1,4 +1,6 @@
 using PrimeiraWebAPI.Services;
+using Microsoft.EntityFrameworkCore;
+using PrimeiraWebAPI.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,13 @@ builder.Services.AddSwaggerGen();
 
 // AddTransient registra nossa classe para inserção, com o tempo de vida "Transitório". Assim, para cada solicitação, uma nova instância é criada.
 builder.Services.AddTransient<AlbunsService>();
+
+
+string connectionString = "Server=localhost;Database=PrimeiraAPI;User Id=sa;Password=SQLServer2019;";
+// se não estiver usando o SQLExpress tente
+// Server=localhost;Database=PrimeiraAPI;Trusted_Connection=True;
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
 
 var app = builder.Build();
 
